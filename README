@@ -1,6 +1,6 @@
                                Ratel (PoC) v0.1
                                ----------------
-
+                          irc.freenode.net / #ratel 
 
 -------------------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ Macros are just shortcuts for regex. For now there are only few :
 * Setup
 1. Get the code Clone the code from this github where you want on your system.
 $ cd /home 
-$ git clone https://github.com/c-x/Ratel
+$ git clone https://github.com/c-x/Ratel 
 
 2. Centralise your log files using syslog-ng or whatever method you like/need.
 Ratel need flat log files and it's a good idea to centralize them all into a
