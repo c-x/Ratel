@@ -1,0 +1,14 @@
+Well, there is a few things to add :
+
+- Read each log file only once
+- Have a nice documentation and startup guide
+- Change the way it's launched ("python ratel.py -c ." sounds better)
+- Handle Ctrl+C (finish and clean threads) and much better, daemonize ratel with start/stop/reload options
+- Rewrite all in C++/C
+- Think about a multi-servers architectures
+
+
+Parsers community :
+In order to prepare, and share, parsers, I need logs. So, please fill free to send me your samples :)
+
+
