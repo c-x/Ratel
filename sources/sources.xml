@@ -1,0 +1,67 @@
+<!--
+AVAILABLE MACROS :
+
+@id[min_value, max_value, number_of_digits]
+
+  Will generate an incremental number starting at min_value. This number will grow to max_value. 
+  The transition (ex: 1 -> 2) will be done _only_ if the file with the current id is completly read, and, 
+  if the file with the next id exist. A transition from '1' to '3' for example is not allowed.
+  The number_of_digits represent the number of digits you wants. With a min_value of '5', and a 
+  number_of_digits set to 3, for exemple, the first id will be '005', then '006', etc until reaching max_value.
+
+  Sample usage :
+     @id[0,10,1] : From 0 to 10 (including 10) with 1 digit  (1,2,3,..,9,10)
+     @id[3,16,2] : From 3 to 16 (including 16) with 2 digits (03,04,..,09,10,..,15,16)
+
+@timestamp[timestamp_format]
+
+  This macro is a shortcut to describe file's names which include date and time information. You should refer
+  to the strftime() function to understant this macro (see link below).
+
+  Sample usage :
+     @timestamp[%Y] : Print the Year (2012, 2013, 2014, ..)
+     @timestamp[%Y.%m.%d] : Print the date as "year.month.day" (2012.12.31, 2013.01.24, ..)
+
+  http://docs.python.org/2/library/time.html?highlight=time.strftime#time.strftime
+
+
+Hints :
+- For "file" source type, a path _MUST_ be unique. 
+- You can apply 1 or more (no limit) parser to a source file.
+- A source file can be 1 or more (no limit) file path.
+-->
+
+<sources>
+	<!-- 
+	<source type="file" log_unparsed="false">
+		<files>
+			<path>/home/samples/simple-@id[0,10,1].log</path>
+			<path>/home/samples/simple2-@timestamp[%Y.%M.%D].log</path>
+		</files>
+		<parsers>
+			<parser>bluecoat/http.parser</parser>
+			<parser>bluecoat/ftp.parser</parser>
+		</parsers>
+	</source>
+	-->
+	<source type="file" log_unparsed="false">
+		<files>
+			<path>/data/logs/bluecoat/proxy_server_@timestamp[%Y.%M.%D]</path>
+		</files>
+		<parsers>
+			<parser>bluecoat/http.parser</parser>
+		</parsers>
+	</source>
+
+	<!--
+	<source type="wmi">
+		<host>1.2.3.4</host>
+		<username>Admin</username>
+		<password>base64(password)</password>
+		<eventsType>Security,Application,System</eventsType>
+		<parsers>
+			<parser>windows_events</parser>
+		</parsers>
+	</source>
+	-->
+</sources>

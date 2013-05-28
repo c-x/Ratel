@@ -1,0 +1,87 @@
+<!--
+Rules type:
+- base
+  A base rule is applied to one object at a time and do not depend from any outside/other state from anything.
+  This rule live for the time of the object it process.
+  This rule trigger or not regarding objects attributs.
+
+- counter
+  A counter rule will trigger when a number of objects have been met. No time involved.
+
+- window
+  A window rule is applied regarding an object and live for a defined time (ex: 30 minutes). During that time, similar
+  objects are aggregated to the existing one.
+  This rule trigger when a threshold is reached.
+
+
+/!\ 
+    Keep in mind that all the correlation is done in memory. So, using counter and window rules require to keep
+    tracks of objects...which means memory.
+    High Trafic + lot of windows/counter rules = a lot of RAM required.
+
+
+Q: Can rule be used into other rules ?
+A: Yes, everything is a flat file, so everything is an object for Flawp. Think this way:
+   log file -> rule -> action(write to cutom log file) then use that custom log file as a log source.
+   et voila :)
+   Caution: be very careful when doing this, this can produce loops...
+
+-->
+<rules>
+	<rule type="base" name="[DEMO] inactive and empty rule">
+		<enabled>false</enabled>
+	</rule>
+
+	<rule type="base" name="[DEMO] iptables test">
+		<enabled>True</enabled>
+		<stopRule>False</stopRule>
+		<description>Foo Bar is in the Kitchen</description>
+		<parsers>
+			<parser>linux/iptables</parser>
+		</parsers>
+		<condition>
+			match(evt.ip_src, "\.22\d")
+		</condition>
+		<action>alert.py cos@mycompany.com</action>
+	</rule>
+
+	<rule type="base" name="[DEMO] HTTP Web Proxies">
+		<enabled>True</enabled>
+		<stopRule>False</stopRule>
+
+		<description>Detect web proxies usage but discard known hosts and failed queries (4xx, 5xx)</description>
+
+		<parsers>
+			<parser>bluecoat/http</parser>
+			<parser>apache/http</parser>
+		</parsers>
+
+		<condition>
+		(
+			isWebProxy(evt.cs_uri) AND
+			lt(evt.cs_status,400)
+		) 
+		AND NOT 
+		(
+			imatch(evt.cs_uri, "wikipedia\.org|google\.com")
+		)
+		</condition>
+		<action>alert.py cos@mycompany.com</action>
+	</rule>
+
+	<rule type="base" name="[DEMO] TCP CONNECT">
+		<enabled>True</enabled>
+		<stopRule>False</stopRule>
+		<description>Detect suspicious TCP CONNECT</description>
+		<parsers>
+			<parser>bluecoat/http</parser>
+		</parsers>
+		<condition>
+		imatch(evt.cs_method, "CONNECT")
+		</condition>
+		<action>alert.py trolilol@lalalalalal.com evt.domain</action>
+	</rule>
+
+
+</rules>
+

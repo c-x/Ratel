@@ -1,0 +1,50 @@
+<events>
+   <event name="iptables" action="correlate">
+	<item label="localtime">(\w+\s+\d+\s+\d+:\d+:\d+)\s+</item>
+	<item label="hostname" >(\w+)\s+</item>
+	<item label="kernel"   >(\w+):\s+</item>
+	<item label="pid">\[[^\]]+\]\s+</item>
+	<item label="iface_in" >IN=([^\s]*)\s+</item>
+	<item label="iface_out">OUT=([^\s]*)\s+</item>
+	<item label="mac_dst"  >MAC=([\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+):</item>
+	<item label="mac_src"  >([\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+):</item>
+	<item label="payload_type">[a-fA-F0-9]{2}:[a-fA-F0-9]{2}\s+</item>
+	<item label="ip_src"    >SRC=(\d+\.\d+\.\d+\.\d+)\s+</item>
+	<item label="ip_dst"    >DST=(\d+\.\d+\.\d+\.\d+)\s+</item>
+	<item label="packet_length" >LEN=(\d+)\s+</item>
+	<item label="tos"  >TOS=([^\s]*)\s+</item>
+	<item label="prec" >PREC=([^\s]*)\s+</item>
+	<item label="ttl"  >TTL=([^\s]*)\s+</item>
+	<item label="id"   >ID=([^\s]*)\s+</item>
+	<item label="df"   >DF\s*</item>
+	<item label="proto">PROTO=([^\s]*)\s+</item>
+	<item label="spt"  >SPT=([^\s]*)\s+</item>
+	<item label="dpt"  >DPT=([^\s]*)\s+</item>
+	<item label="window"  >WINDOW=([^\s]*)\s+</item>
+	<item label="res" >RES=([^\s]*)\s+</item>
+   </event>
+   <event name="iptables-2" action="drop">
+	<item label="localtime">(@timestamp[%W %d %H:%M:%S])\s+</item>
+	<item label="hostname" >([^\s]+)\s+</item>
+	<item label="kernel"   >(\w+):\s+</item>
+	<item label="pid">\[[^\]]+\]\s+</item>
+	<item label="iface_in" >IN=([^\s]*)\s+</item>
+	<item label="iface_out">OUT=([^\s]*)\s+</item>
+	<item label="mac_dst"  >MAC=([\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+):</item>
+	<item label="mac_src"  >([\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+:[\da-f]+):</item>
+	<item label="payload_type">[a-fA-F0-9]{2}:[a-fA-F0-9]{2}\s+</item>
+	<item label="ip_src"    >SRC=(@ipv4)\s+</item>
+	<item label="ip_dst"    >DST=(\d+\.\d+\.\d+\.\d+)\s+</item>
+	<item label="packet_length" >LEN=(\d+)\s+</item>
+	<item label="tos"  >TOS=([^\s]*)\s+</item>
+	<item label="prec" >PREC=([^\s]*)\s+</item>
+	<item label="ttl"  >TTL=([^\s]*)\s+</item>
+	<item label="id"   >ID=([^\s]*)\s+</item>
+	<item label="df"   >DF\s*</item>
+	<item label="proto">PROTO=([^\s]*)\s+</item>
+	<item label="spt"  >SPT=([^\s]*)\s+</item>
+	<item label="dpt"  >DPT=([^\s]*)\s+</item>
+	<item label="window"  >WINDOW=([^\s]*)\s+</item>
+	<item label="res" >RES=([^\s]*)\s+</item>
+   </event>
+</events>

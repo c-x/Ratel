@@ -1,0 +1,23 @@
+<events>
+   <event name="HTTP(S)" action="correlate">
+	<item label="localtime">"\[(@timestamp[%d/%b/%Y:%H:%M:%S])\s+\+\d+\]\"\s+</item>
+	<item label="cs_username">([^\s]+)\s+</item>
+	<item label="cs_method">([^\s]+)\s+</item>
+	<item label="cs_uri">([^\s]+)\s+</item>
+	<item label="cs_version">([^\s]+)\s+</item>
+	<item label="cs_status">(\d+)\s+</item>
+	<item label="cs_bytes">(\d+)\s+</item>
+	<item label="rs_status">(\d+)\s+</item>
+	<item label="rs_bytes">(\d+)\s+</item>
+	<item label="s_action">([^\s]+)\s+</item>
+	<item label="sc_bytes">(\d+)\s+</item>
+	<item label="time_taken">(\d+)\s+</item>
+	<item label="sr_bytes">(\d+)\s+</item>
+	<item label="c_ip">(@ipv4)\s+</item>
+	<item label="c_port">(\d+)\s+</item>
+	<item label="cs_user_agent">(-|"[^"]+")\s+</item>
+	<item label="cs_categories">(-|"[^"]+")\s+</item>
+	<item label="s_icap_status">([^\s]+)\s+</item>
+	<item label="rs_content_type">([^$]+)</item>
+   </event>
+</events>
