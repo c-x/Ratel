@@ -6,6 +6,7 @@ Well, there is a few things to add :
 - Handle Ctrl+C (finish and clean threads) and much better, daemonize ratel with start/stop/reload options
 - Rewrite all in C++/C
 - Think about a multi-servers architectures
+- Add an URL splitter at the parsing stage (like Faup) to populate extra fields (domain, port, url_file, subdomain, tld, etc)
 
 
 Parsers community :
