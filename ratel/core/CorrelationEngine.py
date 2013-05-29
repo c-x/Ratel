@@ -11,9 +11,9 @@ class CorrelationRule(object):
     FunctionsEntryPoints = {}
     available_functions  = []
 
-    def __init__(self, name, type, logger, parsers, condition, action, stopRule):
+    def __init__(self, name, rule_type, logger, parsers, condition, action, stopRule):
         self.name         = name  # name of the rule
-        self.type         = type  # base, window, etc
+        self.type         = rule_type  # base, window, etc
         self.parsers_list = parsers   # [p1, p2, ..]
         self.condition    = re.sub('\s+', ' ', condition) # (A or B ..)
         self.action       = action   # sendmail
