@@ -194,7 +194,7 @@ class CorrelationEngine(object):
                 rule.take_action(obj)
 
             if rule.stopRule:
-                break;
+                break
 
 
 if __name__ == "__main__":
