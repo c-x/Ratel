@@ -12,8 +12,8 @@ isWebProxy(evt.url)
 
 _signature = "isWebProxy\(([^)]+)\)"
 
-def main(attribut):
 
+def main(attribut):
     patterns = [
         b64encode('www.')[:-2],
         b64encode('http://')[:-2],

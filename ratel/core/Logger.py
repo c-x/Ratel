@@ -4,8 +4,8 @@ import re
 import sys
 import time
 
-class Logger:
 
+class Logger:
     def __init__(self, config_dir):
         self.fs = sys.stdout
         self.useDate = False
@@ -14,7 +14,7 @@ class Logger:
         try:
             self.file_pattern = re.sub('//', '/', config_dir + "/logs/ratel-%Y.%m.%d.log")
 
-            fname = time.strftime( self.file_pattern )
+            fname = time.strftime(self.file_pattern)
 
             if fname != self.file_pattern:
                 self.useDate = True
@@ -24,7 +24,8 @@ class Logger:
         except Exception, e:
             print "FAILED to open log file : %s" % str(e)
             sys.exit(1)
-    # eof __init__
+
+        # eof __init__
 
     def _reopen(self):
 
@@ -40,7 +41,7 @@ class Logger:
     def _write(self, level, msg):
         self._reopen()
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-        self.fs.write("[%s] %s: %s\n" % (timestamp, level, msg.strip()) )
+        self.fs.write("[%s] %s: %s\n" % (timestamp, level, msg.strip()))
 
     def info(self, msg):
         self._write('INFO', msg)

@@ -6,19 +6,19 @@ import xml.dom.minidom
 
 from ratel.functions import *
 
-class CorrelationRule(object):
 
+class CorrelationRule(object):
     FunctionsEntryPoints = {}
-    available_functions  = []
+    available_functions = []
 
     def __init__(self, name, rule_type, logger, parsers, condition, action, stopRule):
-        self.name         = name  # name of the rule
-        self.type         = rule_type  # base, window, etc
+        self.name = name  # name of the rule
+        self.type = rule_type  # base, window, etc
         self.parsers_list = parsers   # [p1, p2, ..]
-        self.condition    = re.sub('\s+', ' ', condition) # (A or B ..)
-        self.action       = action   # sendmail
-        self.stopRule     = stopRule # True/False
-        self.logger       = logger   # log file fd
+        self.condition = re.sub('\s+', ' ', condition) # (A or B ..)
+        self.action = action   # sendmail
+        self.stopRule = stopRule # True/False
+        self.logger = logger   # log file fd
 
         # List of functions used by the current condition by position (a smae function can be used mutliple times)
         # used_functions[ contains\(...\) ] = {0: {0:arg1, 1:arg2,}, 1: ..}
@@ -34,16 +34,17 @@ class CorrelationRule(object):
 
             # a "main" _must_ be declared in each functions
             module_name = sys.modules['ratel.functions.%s' % func_name]
-            self.available_functions.append( module_name._signature )
+            self.available_functions.append(module_name._signature)
             func_call = getattr(module_name, 'main')
 
-            self.FunctionsEntryPoints[ func_name ] = func_call
+            self.FunctionsEntryPoints[func_name] = func_call
 
             # print "func_name   = %s" % func_name
             # print "module_name = %s" % module_name
             # print "sig         = %s" % module_name._signature
             # print "func_call   = %s" % func_call
-    # eof __init__()
+
+        # eof __init__()
 
     def condition_is_valid(self):
         """
@@ -59,7 +60,7 @@ class CorrelationRule(object):
             ret = re.search(ap, cond)
             if ret:
                 # [('a', 'b'), ('a', 'b'), ...]
-                self.used_functions [ ap ] = re.findall(ap, cond)
+                self.used_functions[ap] = re.findall(ap, cond)
                 cond = re.sub(ap, ' ', cond)
 
         # print self.used_functions
@@ -86,7 +87,7 @@ class CorrelationRule(object):
         # if it remains evt.* objects in the rule, there is a problem
         # FIXME: false positive is possible when parsing an url for example containing somethingevt.gif <= 'evt.'
         if re.search(r'evt\.', cond):
-            msg  = "Correlation rule (%s) not properly translated. " % self.name
+            msg = "Correlation rule (%s) not properly translated. " % self.name
             msg += "Please fix the correlation rule and/or parser! Unexpected: %s" % cond
             self.logger.error(msg)
             return False
@@ -104,12 +105,12 @@ class CorrelationRule(object):
         Execute the action of a rule. This mainly execute a script.
         We should add parameters passing ;)
         """
-        self.logger.info("Rule \"%s\" triggered and now I'm supposed to run the action \"%s\" with the log's object..." %
-                (self.name, self.action) )
+        self.logger.info(
+            "Rule \"%s\" triggered and now I'm supposed to run the action \"%s\" with the log's object..." %
+            (self.name, self.action))
 
 
 class CorrelationEngine(object):
-
     def __init__(self, config_dir, logger):
 
         self.numberOfRules = 0
@@ -117,7 +118,8 @@ class CorrelationEngine(object):
         self.logger = logger
 
         self._readXML(config_dir)
-    # eof __init__
+
+        # eof __init__
 
     def _readXML(self, config_dir):
 
@@ -126,19 +128,19 @@ class CorrelationEngine(object):
         directory = re.sub('//', '/', directory)
 
         rules_files = []
-        for fname in os.listdir( directory ):
+        for fname in os.listdir(directory):
 
             if re.search('\.xml$', fname.lower()):
                 f = "%s/%s" % (directory, fname)
                 f = re.sub('//', '/', f)
 
-                rules_files.append( f )
+                rules_files.append(f)
 
         # load each rule file
         for rf in rules_files:
             self.logger.info("Loading rule file %s" % rf)
 
-            XMLFile = xml.dom.minidom.parse( rf )
+            XMLFile = xml.dom.minidom.parse(rf)
             for rule in XMLFile.documentElement.getElementsByTagName("rule"):
                 r_type = rule.attributes['type'].nodeValue.lower()
                 r_name = rule.attributes['name'].nodeValue.lower()
@@ -156,19 +158,19 @@ class CorrelationEngine(object):
                 for item in rule.getElementsByTagName("parser"):
                     p = item.childNodes[0].nodeValue
                     if not (p in parsers_list):
-                        parsers_list.append( p )
+                        parsers_list.append(p)
 
-                action    = rule.getElementsByTagName("action")[0].childNodes[0].nodeValue.lower()
+                action = rule.getElementsByTagName("action")[0].childNodes[0].nodeValue.lower()
                 condition = rule.getElementsByTagName("condition")[0].childNodes[0].nodeValue.lower()
 
                 # check *here* that each requested parser exist
 
                 c = CorrelationRule(r_name, r_type, self.logger, parsers_list, condition, action, stopRule)
                 if not c.condition_is_valid():
-                    self.logger.error("Invalid rule condition for %s (type=%s)" % (r_name,r_type))
+                    self.logger.error("Invalid rule condition for %s (type=%s)" % (r_name, r_type))
                     sys.exit(1)
 
-                self._Rules[ self.numberOfRules ] = c
+                self._Rules[self.numberOfRules] = c
                 self.numberOfRules += 1
 
     def evaluate(self, parser_name, obj):
@@ -179,7 +181,7 @@ class CorrelationEngine(object):
         parser_name = re.sub('\.parser$', '', parser_name) # linux/iptables
 
         for rule_id in self._Rules:
-            rule = self._Rules[ rule_id ]
+            rule = self._Rules[rule_id]
 
             #print "="*50
             #print "rule_id     = %s" % rule_id
@@ -199,6 +201,7 @@ class CorrelationEngine(object):
 
 if __name__ == "__main__":
     from ratel.core.Logger import Logger
+
     cor = CorrelationEngine("./", Logger('.'))
     #cor.evaluate( obj )
 

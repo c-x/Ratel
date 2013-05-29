@@ -6,8 +6,8 @@ Return True if 'left' is lower than 'right'
 
 _signature = "lt\(([^,]+),([^)]+)\)"
 
-def main(left, right):
 
+def main(left, right):
     a = 0
     b = 0
     try:

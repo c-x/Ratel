@@ -16,15 +16,15 @@ class File(threading.Thread):
 
         self.file_pattern = filename
         self.parsers_list = parsers_list
-        self._logsQueue   = logsQueue
-        self.logger       = logger
+        self._logsQueue = logsQueue
+        self.logger = logger
 
         self.useDate = False
-        self.useID   = False
+        self.useID = False
 
         self._date_format = None
-        self._idMinValue  = 0
-        self._idMaxValue  = 0
+        self._idMinValue = 0
+        self._idMaxValue = 0
         self._idNumberOfDigits = 0
 
         self.log_unparsed = ( log_unparsed.lower() == "true" )
@@ -34,9 +34,9 @@ class File(threading.Thread):
         if ret:
             r = ret.group(1).split(',')
 
-            self._idMinValue = int( r[0] )
-            self._idMaxValue = int( r[1] ) #+ 1
-            self._idNumberOfDigits = int( r[2] )
+            self._idMinValue = int(r[0])
+            self._idMaxValue = int(r[1]) #+ 1
+            self._idNumberOfDigits = int(r[2])
             self.useID = True
 
         # Do the filename use @timestamp macro ?
@@ -76,7 +76,8 @@ class File(threading.Thread):
 
         i += 1
         return fmt % i
-    # eof _getNextID()
+
+        # eof _getNextID()
 
     def makeFilename(self, c_id, c_date):
         filename = self.file_pattern
@@ -95,8 +96,8 @@ class File(threading.Thread):
 
     def run(self):
 
-        seek_pos     = 0
-        current_id   = self._getNextID(None)
+        seek_pos = 0
+        current_id = self._getNextID(None)
         current_date = self._getDate()
 
         while True:
@@ -115,11 +116,11 @@ class File(threading.Thread):
                 line = fd.readline()
                 while line:
                     seek_pos = fd.tell()
-                    line     = line.strip()
+                    line = line.strip()
 
                     # push the log line to the stack with it's associated parsers
-                    item = {'raw':line, 'parsers':self.parsers_list, 'log_unparsed':self.log_unparsed}
-                    self._logsQueue.put( item )
+                    item = {'raw': line, 'parsers': self.parsers_list, 'log_unparsed': self.log_unparsed}
+                    self._logsQueue.put(item)
 
                     line = fd.readline()
                 fd.close()
@@ -129,15 +130,15 @@ class File(threading.Thread):
 
             # Next file
             if EOF:
-                c_id    = self._getNextID(current_id)
-                c_date  = self._getDate()
+                c_id = self._getNextID(current_id)
+                c_date = self._getDate()
                 next_filename = self.makeFilename(c_id, c_date)
 
                 if (next_filename != filename) and (os.path.isfile(next_filename)):
-                    current_id   = c_id
+                    current_id = c_id
                     current_date = c_date
-                    filename  = next_filename
+                    filename = next_filename
                     sleepTime = 0
-                    seek_pos  = 0
+                    seek_pos = 0
             time.sleep(sleepTime)
-    # eof run()
+            # eof run()

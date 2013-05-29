@@ -13,8 +13,8 @@ match(evt.ip_src, "127\.\d+\.\d+\.\d+")
 
 _signature = "imatch\(([^,]+),([^)]+)\)"
 
-def main(attribut, pattern):
 
+def main(attribut, pattern):
     try:
         reg_t = re.compile(pattern, re.IGNORECASE)
         if reg_t.search(attribut):
