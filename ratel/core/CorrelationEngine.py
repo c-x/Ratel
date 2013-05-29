@@ -198,6 +198,7 @@ class CorrelationEngine(object):
 
 
 if( __name__ == "__main__" ):
-    cor = CorrelationEngine("./", None, sys.stdout)
+    from ratel.core.Logger import Logger
+    cor = CorrelationEngine("./", Logger('.'))
     #cor.evaluate( obj )
 
