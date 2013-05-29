@@ -13,7 +13,7 @@ def main(left, right):
     try:
         a = int(left)
         b = int(right)
-    except:
+    except TypeError:
         pass
 
     return a <= b
