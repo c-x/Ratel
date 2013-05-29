@@ -8,7 +8,7 @@
 * as a PoC to demonstrate some ideas I've in mind (log management, correlation).
 * in a 5 days hardcoding session (hell, this is a PoC, don't be too much crude!)
 
-If I've some feedback from _YOU_, I will start the developpement of "real"
+If I've some feedback from _YOU_, I will start the development of "real"
 version, in C/C++ for efficiecy (Python is cool, but slooowww...).
 
 ##### In few words, Ratel goals are:
@@ -17,8 +17,15 @@ version, in C/C++ for efficiecy (Python is cool, but slooowww...).
 * To let users write their own functions for the correlation part
 * Maybe build a 'SIEM/SIM/SEM' community, who knows...
 
-**SEND ME YOUR FEEDBACK/ADVICE/COMMENT** 
-if you want this PoC become a real software (-:
+##### Ratel is a PoC :
+Ratel is a PoC which means that's a simple demonstrator and not all functionnalities are coded. For example,
+the correlation currently working is only 'base rules' ('windows' and 'counter' rules are not yet implemented).
+
+If you find any interest to thing kind of software, **SEND ME YOUR FEEDBACK/ADVICE/COMMENT**. I will then engage the
+development of a real version.
+
+So, it's up to you ;-)
+
 
 
 ### Why this code ?
