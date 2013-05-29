@@ -21,7 +21,7 @@ version, in C/C++ for efficiecy (Python is cool, but slooowww...).
 Ratel is a PoC which means that's a simple demonstrator and not all functionnalities are coded. For example,
 the correlation currently working is only 'base rules' ('windows' and 'counter' rules are not yet implemented).
 
-If you find any interest to thing kind of software, **SEND ME YOUR FEEDBACK/ADVICE/COMMENT**. I will then engage the
+If you find any interest to this kind of software, **SEND ME YOUR FEEDBACK/ADVICE/COMMENT**. I will then engage the
 development of a real version.
 
 So, it's up to you ;-)
