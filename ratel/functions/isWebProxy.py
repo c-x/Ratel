@@ -24,14 +24,14 @@ def main(attribut):
 
     try:
         for p in patterns:
-            if( re.search(p, attribut) ):
+            if re.search(p, attribut):
                 return True
     except:
         pass
     return False
 
 
-if( __name__ == "__main__" ):
+if __name__ == "__main__":
     """
     This code is only for testing the main function.
     # python file_name.py

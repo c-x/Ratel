@@ -33,7 +33,7 @@ class File(threading.Thread):
 
         # Do the filename use @id macro ?
         ret = re.search("@id\[([^\]]+)\]", filename)
-        if( ret ):
+        if ret:
             r = ret.group(1).split(',')
 
             self._idMinValue = int( r[0] )
@@ -43,14 +43,14 @@ class File(threading.Thread):
 
         # Do the filename use @timestamp macro ?
         ret = re.search("@timestamp\[([^\]]+)\]", filename)
-        if( ret ):
+        if ret:
             self._date_format = ret.group(1)
             self.useDate = True
 
         # consistancy checks
-        if( self._idMinValue > self._idMaxValue ):
+        if self._idMinValue > self._idMaxValue:
             self._idMinValue = self._idMaxValue
-        if( self._idNumberOfDigits < 1 ):
+        if self._idNumberOfDigits < 1:
             self._idNumberOfDigits = 0
 
     # eof __init__
@@ -64,34 +64,34 @@ class File(threading.Thread):
     # just return if idMaxValue is reached.
     def _getNextID(self, current_id):
 
-        if( not self.useID ):
+        if not self.useID:
             return None
 
         fmt = "%%0%sd" % self._idNumberOfDigits
 
-        if( current_id is None ):
-            return (fmt % self._idMinValue)
+        if current_id is None:
+            return fmt % self._idMinValue
 
         i = int(current_id)
-        if( i >= self._idMaxValue ):
+        if i >= self._idMaxValue:
             return current_id
 
         i += 1
-        return (fmt % i)
+        return fmt % i
     # eof _getNextID()
 
     def makeFilename(self, c_id, c_date):
         filename = self.file_pattern
 
-        if( c_id ):
+        if c_id:
             filename = re.sub("@id\[[^\]]+\]", c_id, filename)
-        if( c_date ):
+        if c_date:
             filename = re.sub("@timestamp\[[^\]]+\]", c_date, filename)
 
         return filename
 
     def _getDate(self):
-        if( not self._date_format ):
+        if not self._date_format:
             return None
         return time.strftime(self._date_format)
 
@@ -101,7 +101,7 @@ class File(threading.Thread):
         current_id   = self._getNextID(None)
         current_date = self._getDate()
 
-        while(True):
+        while True:
             # 1- Get the current filename according to date/id
             # 2- Read it until EOF
             # 3- Next id if it exist or next date if it exist, else, stay on the same and sleep
@@ -115,7 +115,7 @@ class File(threading.Thread):
                 fd.seek(seek_pos)
 
                 line = fd.readline()
-                while( line ):
+                while line:
                     seek_pos = fd.tell()
                     line     = line.strip()
 
@@ -130,12 +130,12 @@ class File(threading.Thread):
                 self.logger.error("Failed to open log file %s" % filename)
 
             # Next file
-            if( EOF ):
+            if EOF:
                 c_id    = self._getNextID(current_id)
                 c_date  = self._getDate()
                 next_filename = self.makeFilename(c_id, c_date)
 
-                if( (next_filename != filename) and (os.path.isfile(next_filename)) ):
+                if (next_filename != filename) and (os.path.isfile(next_filename)):
                     current_id   = c_id
                     current_date = c_date
                     filename  = next_filename

@@ -35,7 +35,7 @@ class Source(threading.Thread):
         ret = []
         for f in self.watchlist_files:
             for p in self.watchlist_files[ f ]:
-                if( not p in ret ):
+                if not p in ret:
                     ret.append( p )
         return ret
 
@@ -49,11 +49,11 @@ class Source(threading.Thread):
                 s_type       = source.attributes['type'].nodeValue.lower()
                 log_unparsed = source.attributes['log_unparsed'].nodeValue.lower()
 
-                if( s_type == "file" ):
+                if s_type == "file":
                     for path in source.getElementsByTagName("path"):
                         f = path.childNodes[0].nodeValue
 
-                        if( f in self.watchlist_files ):
+                        if f in self.watchlist_files:
                             self.logger.error("Duplicate source : %s" % f)
                             sys.exit(1)
 
@@ -66,7 +66,7 @@ class Source(threading.Thread):
                         fi = File(f, self.watchlist_files[ f ], log_unparsed, \
                                 self._logsQueue, self.logger)
                         self._Sources.append( fi )
-                elif( s_type == "wmi" ):
+                elif s_type == "wmi":
                     self.logger.warning("Collecting WMI from Linux is cool ! - not yet implemented.")
                 else:
                     self.logger.warning("We've got plans for SSH, SQL, CIFS, FTP, "\

@@ -27,7 +27,7 @@ class Event(object):
         self._attr_ = {}
 
 
-        if( not( self.action in self._valid_actions) ):
+        if not( self.action in self._valid_actions):
             self.logger.error("Event's action _MUST_ be one of : %s" % str(self._valid_actions))
             sys.exit(1)
     # eof __init__
@@ -92,10 +92,10 @@ class Event(object):
         """
         # timestamp
         ret = re.search(r"@timestamp\[([^\]]+)\]", regex)
-        if( ret ):
+        if ret:
             r = self.timestampToRegex( ret.group(1) )
 
-            if( re.search('%[a-zA-Z]', r) ):
+            if re.search('%[a-zA-Z]', r):
                 self.logger.warning("Timestamp macro conversion probable error (macro=\"%s\", result=\"%s\")"  \
                 % (ret.group(1), r))
             regex = re.sub("@timestamp\[([^\]]+)\]", r, regex)
@@ -111,7 +111,7 @@ class Event(object):
 
     def addItem(self, name, value):
 
-        if( name in self._attr_ ):
+        if name in self._attr_:
             self.logger.error("item's name already used in event %s. It _MUST_ be unique." % self.event_name)
             sys.exit(1)
 
@@ -124,7 +124,7 @@ class Event(object):
         self.labels.append( name ) # labels list, just in case
 
         self.items_positions[ self.numberOfLabels ] = name
-        if( re.search('\(', reg_value) ):
+        if re.search('\(', reg_value):
             self.items_capture_positions[ len(self.items_capture_positions) ] = name
 
         self.numberOfLabels += 1
@@ -138,7 +138,7 @@ class Event(object):
 
         ret = self.regex_t.search(rawlog)
 
-        if( ret ):
+        if ret:
             for i,l in enumerate(ret.groups()):
                 self._attr_[ self.items_capture_positions[i] ] = l
             return self

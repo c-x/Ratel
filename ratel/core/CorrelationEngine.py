@@ -29,7 +29,7 @@ class CorrelationRule(object):
         # Load available functions and their entry points (ratel.functions.xxxx)
         functions_module = sys.modules['ratel.functions']
         for func_name in functions_module.__all__:
-            if( func_name == "__init__" ):
+            if func_name == "__init__":
                 continue
 
             # a "main" _must_ be declared in each functions
@@ -57,7 +57,7 @@ class CorrelationRule(object):
             ap = ap.lower()
 
             ret = re.search(ap, cond)
-            if( ret ):
+            if ret:
                 # [('a', 'b'), ('a', 'b'), ...]
                 self.used_functions [ ap ] = re.findall(ap, cond)
                 cond = re.sub(ap, ' ', cond)
@@ -70,7 +70,7 @@ class CorrelationRule(object):
         cond = re.sub('\)', '', cond)
         cond = re.sub('\s+', '', cond)
 
-        return ( len(cond) == 0 )
+        return len(cond) == 0
 
     def evaluate(self, obj):
         """
@@ -85,7 +85,7 @@ class CorrelationRule(object):
 
         # if it remains evt.* objects in the rule, there is a problem
         # FIXME: false positive is possible when parsing an url for example containing somethingevt.gif <= 'evt.'
-        if( re.search(r'evt\.', cond) ):
+        if re.search(r'evt\.', cond):
             msg  = "Correlation rule (%s) not properly translated. " % self.name
             msg += "Please fix the correlation rule and/or parser! Unexpected: %s" % cond
             self.logger.error(msg)
@@ -128,7 +128,7 @@ class CorrelationEngine(object):
         rules_files = []
         for fname in os.listdir( directory ):
 
-            if( re.search('\.xml$', fname.lower()) ):
+            if re.search('\.xml$', fname.lower()):
                 f = "%s/%s" % (directory, fname)
                 f = re.sub('//', '/', f)
 
@@ -143,19 +143,19 @@ class CorrelationEngine(object):
                 r_type = rule.attributes['type'].nodeValue.lower()
                 r_name = rule.attributes['name'].nodeValue.lower()
 
-                if( rule.getElementsByTagName("enabled")[0].childNodes[0].nodeValue.lower() != "true" ):
+                if rule.getElementsByTagName("enabled")[0].childNodes[0].nodeValue.lower() != "true":
                     self.logger.info("Skipping deactivated rule \"%s\" " % r_name)
                     continue
 
                 stopRule = True
-                if( rule.getElementsByTagName("stopRule")[0].childNodes[0].nodeValue.lower() != "true" ):
+                if rule.getElementsByTagName("stopRule")[0].childNodes[0].nodeValue.lower() != "true":
                     stopRule = False
 
                 self.logger.info("Load rule \"%s\" (stop=%s)" % (r_name, stopRule))
                 parsers_list = []
                 for item in rule.getElementsByTagName("parser"):
                     p = item.childNodes[0].nodeValue
-                    if( not (p in parsers_list) ):
+                    if not (p in parsers_list):
                         parsers_list.append( p )
 
                 action    = rule.getElementsByTagName("action")[0].childNodes[0].nodeValue.lower()
@@ -164,7 +164,7 @@ class CorrelationEngine(object):
                 # check *here* that each requested parser exist
 
                 c = CorrelationRule(r_name, r_type, self.logger, parsers_list, condition, action, stopRule)
-                if( not c.condition_is_valid() ):
+                if not c.condition_is_valid():
                     self.logger.error("Invalid rule condition for %s (type=%s)" % (r_name,r_type))
                     sys.exit(1)
 
@@ -173,7 +173,7 @@ class CorrelationEngine(object):
 
     def evaluate(self, parser_name, obj):
 
-        if( obj.action == "drop" ):
+        if obj.action == "drop":
             return
 
         parser_name = re.sub('\.parser$', '', parser_name) # linux/iptables
@@ -186,18 +186,18 @@ class CorrelationEngine(object):
             #print "parser_name = %s" % parser_name
             #print "parser_lsit = %s" % rule.parsers_list
 
-            if( not (parser_name in rule.parsers_list) ):
+            if not (parser_name in rule.parsers_list):
                 continue
 
             ret = rule.evaluate(obj)
-            if( ret ):
+            if ret:
                 rule.take_action(obj)
 
-            if( rule.stopRule ):
+            if rule.stopRule:
                 break;
 
 
-if( __name__ == "__main__" ):
+if __name__ == "__main__":
     from ratel.core.Logger import Logger
     cor = CorrelationEngine("./", Logger('.'))
     #cor.evaluate( obj )

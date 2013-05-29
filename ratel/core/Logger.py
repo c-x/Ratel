@@ -17,7 +17,7 @@ class Logger:
 
             fname = time.strftime( self.file_pattern )
 
-            if( fname != self.file_pattern ):
+            if fname != self.file_pattern:
                 self.useDate = True
 
             self.fs = open(fname, "a")
@@ -29,7 +29,7 @@ class Logger:
 
     def _reopen(self):
 
-        if( not self.useDate ):
+        if not self.useDate:
             return
         try:
             fname = time.strftime(self.file_pattern)

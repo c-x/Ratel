@@ -17,14 +17,14 @@ def main(attribut, pattern):
 
     try:
         reg_t = re.compile(pattern, re.IGNORECASE)
-        if( reg_t.search(attribut) ):
+        if reg_t.search(attribut):
             ret = True
     except:
         ret = False
     return ret
 
 
-if( __name__ == "__main__" ):
+if __name__ == "__main__":
     """
     This code is only for testing the main function.
     # python file_name.py

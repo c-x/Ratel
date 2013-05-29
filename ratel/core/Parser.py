@@ -57,7 +57,7 @@ class Parser(object):
         # events _MUST_ be ordered for efficiency
         for evt in self.events:
             ret = evt.match(rawlog)
-            if( ret ):
+            if ret:
                 return ret
         return None
     # eof parse()

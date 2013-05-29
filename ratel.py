@@ -41,21 +41,21 @@ class ParserWorker(threading.Thread):
     def run(self):
         logger.info("Parsers worker ready.")
 
-        while( True ):
+        while True:
 
             item = self._logsQueue.get()
 
             # trying to parse the raw log
             for p in item['parsers']:
                 o = self._ParsersByName[p].parse(item['raw'])
-                if( o ):
+                if o:
                     #push the object to the correlation stack
                     #self._objsQueue.put( o )
                     self._objsQueue.put( {'parser': p, 'obj' : o} )
                     break
 
             # if parsing failed, log the raw log line
-            if( (not o) and item['log_unparsed'] ):
+            if (not o) and item['log_unparsed']:
                 m = "parsers=%s rawlog=%s" % (str(item['parsers']), item['raw'])
                 logger.uevent(m)
 
@@ -79,7 +79,7 @@ class CorrelationWorker(threading.Thread):
 
     def run(self):
 
-        while( True ):
+        while True:
             item = self.queue.get()
             self.corEngine.evaluate( item['parser'], item['obj'] )
             self.queue.task_done()
@@ -93,7 +93,7 @@ def usage(pname):
     sys.exit(1)
 
 
-if( (__name__ != "__main__") or (len(sys.argv) != 3) ):
+if (__name__ != "__main__") or (len(sys.argv) != 3):
     usage(sys.argv[0])
 
 

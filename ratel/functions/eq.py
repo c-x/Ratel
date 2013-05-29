@@ -16,10 +16,10 @@ def main(left, right):
     except:
         pass
 
-    return (a == b)
+    return a == b
 
 
-if( __name__ == "__main__" ):
+if __name__ == "__main__":
     print main(400, "400")
     print main("401", "4'00")
     print main("654", 0x400)
