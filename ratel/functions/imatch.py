@@ -2,7 +2,7 @@
 import re
 
 """
-Match a regular expression or a word. 
+Match a regular expression or a word.
 This function is case sensitive.
 
 
@@ -15,20 +15,20 @@ _signature = "imatch\(([^,]+),([^)]+)\)"
 
 def main(attribut, pattern):
 
-	try:
-		reg_t = re.compile(pattern, re.IGNORECASE)
-		if( reg_t.search(attribut) ):
-			ret = True
-	except:
-		ret = False
-	return ret
+    try:
+        reg_t = re.compile(pattern, re.IGNORECASE)
+        if( reg_t.search(attribut) ):
+            ret = True
+    except:
+        ret = False
+    return ret
 
 
 if( __name__ == "__main__" ):
-	"""
-	This code is only for testing the main function.
-	# python file_name.py
-	"""
-	print main("www.google.com", "o.l") # True
-	print main("Hello   WORLD !", "lo\\s+w") # True
+    """
+    This code is only for testing the main function.
+    # python file_name.py
+    """
+    print main("www.google.com", "o.l") # True
+    print main("Hello   WORLD !", "lo\\s+w") # True
 
