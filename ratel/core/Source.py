@@ -63,14 +63,14 @@ class Source(threading.Thread):
                         for parser in source.getElementsByTagName("parser"):
                             self.watchlist_files[ f ].append( parser.childNodes[0].nodeValue )
 
-                        fi = File(f, self.watchlist_files[ f ], log_unparsed, \
-                                self._logsQueue, self.logger)
+                        fi = File(f, self.watchlist_files[ f ], log_unparsed,
+                                  self._logsQueue, self.logger)
                         self._Sources.append( fi )
                 elif s_type == "wmi":
                     self.logger.warning("Collecting WMI from Linux is cool ! - not yet implemented.")
                 else:
-                    self.logger.warning("We've got plans for SSH, SQL, CIFS, FTP, "\
-                        "HTTP, etc, but it's not implemented yet.")
+                    self.logger.warning("We've got plans for SSH, SQL, CIFS, FTP, "
+                                        "HTTP, etc, but it's not implemented yet.")
         except Exception, e:
             self.logger.error("Can't parse the parser file \"%s\" (%s)" % (filename, str(e)))
             sys.exit(1)
