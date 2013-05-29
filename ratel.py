@@ -9,15 +9,15 @@ from ratel.core.Logger import Logger
 from ratel.core.Parser import Parser
 from ratel.core.CorrelationEngine import CorrelationEngine
 
-
 import threading
-class ParserWorker(threading.Thread):
 
-    _Parsers     = []
+
+class ParserWorker(threading.Thread):
+    _Parsers = []
     parsers_list = []
-    _logsQueue   = None
-    _objsQueue   = None
-    logger       = None
+    _logsQueue = None
+    _objsQueue = None
+    logger = None
 
     _ParsersByName = {}
 
@@ -25,7 +25,7 @@ class ParserWorker(threading.Thread):
         threading.Thread.__init__(self)
 
         self.config_dir = config_dir
-        self.logger     = logger
+        self.logger = logger
         self._logsQueue = logsQueue
         self._objsQueue = ObjectsQueue
         self.parsers_list = parsers_list
@@ -33,7 +33,7 @@ class ParserWorker(threading.Thread):
         # load parsers
         self._ParsersByName = {}
         for p in parsers_list:
-            self._ParsersByName[ p ] = Parser(config_dir, p, logger)
+            self._ParsersByName[p] = Parser(config_dir, p, logger)
 
     # eof __init__
 
@@ -50,7 +50,7 @@ class ParserWorker(threading.Thread):
                 if o:
                     #push the object to the correlation stack
                     #self._objsQueue.put( o )
-                    self._objsQueue.put( {'parser': p, 'obj' : o} )
+                    self._objsQueue.put({'parser': p, 'obj': o})
                     break
 
             # if parsing failed, log the raw log line
@@ -59,29 +59,29 @@ class ParserWorker(threading.Thread):
                 logger.uevent(m)
 
             self._logsQueue.task_done()
+
 # eof ParserWorker
 
 
 class CorrelationWorker(threading.Thread):
-
     logger = None
-    queue  = None
+    queue = None
 
     def __init__(self, config_dir, queue, logger):
         threading.Thread.__init__(self)
 
         self.logger = logger
-        self.queue  = queue
+        self.queue = queue
 
         # load correlation rules here :)
         self.corEngine = CorrelationEngine(config_dir, logger)
 
     def run(self):
-
         while True:
             item = self.queue.get()
-            self.corEngine.evaluate( item['parser'], item['obj'] )
+            self.corEngine.evaluate(item['parser'], item['obj'])
             self.queue.task_done()
+
 
 def usage(pname):
     print ""
@@ -99,11 +99,9 @@ if (__name__ != "__main__") or (len(sys.argv) != 3):
 # option parsing & init
 config_dir = sys.argv[2]
 
-
-logger       = Logger(config_dir)
-LogsQueue    = Queue(0) # stack where to put raw logs and associated parsers
+logger = Logger(config_dir)
+LogsQueue = Queue(0) # stack where to put raw logs and associated parsers
 ObjectsQueue = Queue(0) # stack where to put objects represention of logs
-
 
 print "[+] Loading sources..."
 TrackedSources = Source(config_dir, LogsQueue, logger)
@@ -121,7 +119,7 @@ for i in range(0, (len(needed_parsers) * 2)):
 
     w = ParserWorker(config_dir, needed_parsers, LogsQueue, ObjectsQueue, logger)
     w.start()
-    workers_list.append( w )
+    workers_list.append(w)
 
 # lauching correlation worker
 # Getting objects from objectsQueue.
