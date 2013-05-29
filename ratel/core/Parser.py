@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 import re
 import sys
-import os
 import xml.dom.minidom
-import time
 
 from Event import Event
 

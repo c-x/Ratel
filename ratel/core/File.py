@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 import re
-import sys
 import os
 import time
 
 import threading
-from Queue import Queue
 # du multiprocessing ne serait-il pas plus intelligent ?
 
 class File(threading.Thread):

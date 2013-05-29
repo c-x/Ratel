@@ -1,9 +1,8 @@
 #!/usr/bin/env python
+
 import re
 import sys
-import os
 import xml.dom.minidom
-import time
 
 import threading
 

@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 import re
 import sys
-import os
-import time
 
 class Event(object):
 
