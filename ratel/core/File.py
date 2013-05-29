@@ -69,7 +69,7 @@ class File(threading.Thread):
 
         fmt = "%%0%sd" % self._idNumberOfDigits
 
-        if( current_id == None ):
+        if( current_id is None ):
             return (fmt % self._idMinValue)
 
         i = int(current_id)
