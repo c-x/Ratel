@@ -1,22 +1,23 @@
-                               Ratel (PoC) v0.1
-                               ================
-                          irc.freenode.net / #ratel 
+Ratel (PoC) v0.1
+================================                               
+
+`IRC: irc.freenode.net / #ratel`
 
 -------------------------------------------------------------------------------
 
 Ratel was wrote :
-- as a PoC to demonstrate some ideas I've in mind (log management, correlation).
-- in a 5 days hardcoding session (hell, this is a PoC, don't be too much crude!)
+* as a PoC to demonstrate some ideas I've in mind (log management, correlation).
+* in a 5 days hardcoding session (hell, this is a PoC, don't be too much crude!)
 
 If I've some feedback from _YOU_, I will start the developpement of "real"
 version, in C/C++ for efficiecy (Python is cool, but slooowww...).
 
 
 In few words, Ratel goals are:
-- To become a correlation framework
-- To let users write rules based on boolean expressions
-- To let users write their own functions for the correlation part
-- Maybe build a 'SIEM/SIM/SEM' community, who knows...
+* To become a correlation framework
+* To let users write rules based on boolean expressions
+* To let users write their own functions for the correlation part
+* Maybe build a 'SIEM/SIM/SEM' community, who knows...
 
 
 							 SEND ME YOUR FEEDBACK.
